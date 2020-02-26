@@ -340,7 +340,9 @@ RCT_EXPORT_METHOD(getPhotos:(NSDictionary *)params
     };
 
     if ([groupTypes isEqualToString:@"all"]) {
-      PHFetchResult <PHAsset *> *const assetFetchResult = [PHAsset fetchAssetsWithOptions: assetFetchOptions];
+      PHFetchOptions *const sortOptions = [PHFetchOptions new];
+      sortOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+      PHFetchResult <PHAsset *> *const assetFetchResult = [PHAsset fetchAssetsWithOptions: sortOptions];
       currentCollectionName = @"All Photos";
       [assetFetchResult enumerateObjectsUsingBlock:collectAsset];
     } else {
